@@ -1,61 +1,65 @@
-#
-# Copyright (C) 2024 BlackMesa123
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 
-# Device configuration file for Galaxy S21 FE 5G (Snapdragon) (r9q2)
+# Copyright (C) 2024 BlackMesa123
+# Licensed under the GNU General Public License v3.0
+
+# ────────────────────────────────────────────────
+# Device configuration for Galaxy S21 FE 5G (Snapdragon) – r9q2
+# ────────────────────────────────────────────────
+
+# 📱 Podstawowe informacje o urządzeniu
 TARGET_NAME="Galaxy S21 FE 5G (Snapdragon)"
 TARGET_CODENAME="r9q2"
 TARGET_ASSERT_MODEL=("SM-G990B2")
 TARGET_PLATFORM="sm8350"
 TARGET_FIRMWARE="SM-G990B2/EUX/350370855705110"
 TARGET_EXTRA_FIRMWARES=("")
+TARGET_BOOT_DEVICE_PATH="/dev/block/by-name"
+
+# 📦 System i partycje
 TARGET_API_LEVEL=33
 TARGET_PRODUCT_FIRST_API_LEVEL=30
 TARGET_VNDK_VERSION=30
 TARGET_SINGLE_SYSTEM_IMAGE="qssi"
 TARGET_OS_FILE_SYSTEM="ext4"
+TARGET_HAS_SYSTEM_EXT=false
+TARGET_INSTALL_METHOD="zip"
+
+# 🧱 Super partition
 TARGET_SUPER_PARTITION_SIZE=11744051200
 TARGET_SUPER_GROUP_NAME="group_basic"
 TARGET_SUPER_GROUP_SIZE=11739856896
-TARGET_HAS_SYSTEM_EXT=false
-TARGET_INSTALL_METHOD=zip
-TARGET_BOOT_DEVICE_PATH="/dev/block/by-name"
 
-# SEC Product Feature
-TARGET_AUTO_BRIGHTNESS_TYPE="5"
-TARGET_DVFS_CONFIG_NAME="dvfs_policy_sm8350_xx"
-TARGET_NFC_CHIP_VENDOR="NXP"
-TARGET_FP_SENSOR_CONFIG="google_touch_display_optical,settings=3"
-TARGET_HAS_MASS_CAMERA_APP=true
+# 🌞 Wyświetlacz i jasność
 TARGET_HAS_QHD_DISPLAY=false
+TARGET_AUTO_BRIGHTNESS_TYPE="5"
+TARGET_DISPLAY_CUTOUT_TYPE="center"
 TARGET_HFR_MODE="1"
 TARGET_HFR_SUPPORTED_REFRESH_RATE="60,120"
 TARGET_HFR_DEFAULT_REFRESH_RATE="120"
-TARGET_DISPLAY_CUTOUT_TYPE="center"
+
+# 📡 Łączność i hotspot
+TARGET_SUPPORT_WIFI_7=false
+TARGET_SUPPORT_HOTSPOT_WIFI_6=true
+TARGET_SUPPORT_HOTSPOT_6GHZ=false
+TARGET_SUPPORT_HOTSPOT_DUALAP=false
+TARGET_SUPPORT_HOTSPOT_WPA3=true
+TARGET_SUPPORT_HOTSPOT_ENHANCED_OPEN=false
+
+# 🔒 Biometria i czujniki
+TARGET_FP_SENSOR_CONFIG="google_touch_display_optical,settings=3"
+TARGET_NFC_CHIP_VENDOR="NXP"
 TARGET_IS_ESIM_SUPPORTED=false
+
+# 📷 Kamera i multimedia
+TARGET_HAS_MASS_CAMERA_APP=true
+TARGET_AUDIO_SUPPORT_ACH_RINGTONE=false
+TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION=true
+
+# 🧠 MDNIE i SSRM
 TARGET_HAS_HW_MDNIE=false
 TARGET_MDNIE_SUPPORTED_MODES="61457"
 TARGET_MDNIE_WEAKNESS_SOLUTION_FUNCTION="0"
 TARGET_SSRM_CONFIG_NAME="siop_r9q_sm8350"
-TARGET_SUPPORT_WIFI_7=false
-TARGET_SUPPORT_HOTSPOT_DUALAP=false
-TARGET_SUPPORT_HOTSPOT_WPA3=true
-TARGET_SUPPORT_HOTSPOT_6GHZ=false
-TARGET_SUPPORT_HOTSPOT_WIFI_6=true
-TARGET_SUPPORT_HOTSPOT_ENHANCED_OPEN=false
-TARGET_AUDIO_SUPPORT_ACH_RINGTONE=false
-TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION=true
-export TARGET_OS_SINGLE_SYSTEM_IMAGE=true
+
+# ⚡ DVFS (zarządzanie energią)
+TARGET_DVFS_CONFIG_NAME="dvfs_policy_sm8350_xx"
