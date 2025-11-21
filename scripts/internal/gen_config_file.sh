@@ -52,7 +52,7 @@ IS_UNICA_CERT_AVAILABLE()
 # ]
 
 if [ $# -ne 1 ]; then
-    echo "Usage: gen_config_file <target>" >&2
+    echo "Usage: gen_config_file <s21fe>" >&2
     exit 1
 elif [ ! -f "$SRC_DIR/target/$1/config.sh" ]; then
     LOGE "File not found: target/$1/config.sh"
