@@ -1,54 +1,95 @@
 #
-# Copyright (C) 2024 Salvo Giangreco
+# Copyright (C) 2025 Salvo Giangreco
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# GPLv3
 #
 
-# Device configuration file for Galaxy S21 FE 5G (Snapdragon) (r9q2)
-TARGET_NAME="Galaxy S21 FE 5G (Snapdragon)"
+# Device configuration file for Galaxy S21 FE 5G (r9q2 - Snapdragon 888)
+
+# --- Identity ---
+TARGET_NAME="Galaxy S21 FE 5G (Snapdragon 888)"
 TARGET_CODENAME="r9q2"
-TARGET_ASSERT_MODEL=("SM-G990B2")
-TARGET_FIRMWARE="SM-G990B2/EUX/350370851234560"
+# Użyj pełnego identyfikatora firmware, najlepiej z CSC właściwym dla Twojego regionu
+# Przykład: SM-G990B/EUX/xxxxxxxxxxxxxx (One UI 6 / Android 14 baza)
+TARGET_FIRMWARE="SM-G990B/EUX/TOO-SET"  # TODO: podmień
 TARGET_EXTRA_FIRMWARES=()
-TARGET_API_LEVEL=34
-TARGET_PRODUCT_FIRST_API_LEVEL=30
-TARGET_VNDK_VERSION=30
-TARGET_SINGLE_SYSTEM_IMAGE="qssi"
-TARGET_OS_FILE_SYSTEM="ext4"
-TARGET_SUPER_PARTITION_SIZE=11744051200
-TARGET_SUPER_GROUP_SIZE=11739856896
-TARGET_HAS_SYSTEM_EXT=false
 
-# SEC Product Feature
+# --- Platform / API levels ---
+# Android 14 = SDK 34, Android 15 = 35, Android 16 = 36
+TARGET_PLATFORM_SDK_VERSION=34            # UI 6 / A14; zmień na 36 dla UI 8 / A16
+TARGET_PRODUCT_SHIPPING_API_LEVEL=31      # Launch level urządzenia (S21 FE = 31)
+TARGET_BOARD_API_LEVEL=30                 # Board level dla kompatybilności
+
+# --- Partitions (podaj wartości z Twojego firmware) ---
+# Rozmiary w bajtach. Jeśli niepewne, sprawdź przy pomocy lpunpack / getprop / super map.
+TARGET_BOOT_PARTITION_SIZE=100663296       # 96 MiB (częsty dla boot na QCOM)
+TARGET_DTBO_PARTITION_SIZE=25165824        # 24 MiB
+TARGET_VENDOR_BOOT_PARTITION_SIZE=100663296 # 96 MiB
+
+# --- Dynamic partitions (super) ---
+# S21 FE ma dynamiczne partycje; nazwa grupy zwykle "qti_dynamic_partitions"
+TARGET_SUPER_PARTITION_SIZE=12000000000     # TODO: wstaw dokładną wartość z urządzenia
+TARGET_SUPER_GROUP_NAME="qti_dynamic_partitions"
+TARGET_QTI_DYNAMIC_PARTITIONS_SIZE=11950000000  # TODO: dopasuj do mapy super
+
+# --- OS layout ---
+# UN1CA 2.5.5 (UI 6/A14) korzysta z pojedynczego obrazu systemu bazowego (qssi u QCOM)
+# W nowszej bazie (UI 8/A16) nadal ustaw qssi, chyba że masz rozdzielone obrazy specyficzne
+TARGET_OS_SINGLE_SYSTEM_IMAGE="qssi"
+TARGET_OS_BUILD_SYSTEM_EXT_PARTITION=false
+
+# --- SEC Product Feature ---
+# Dźwięk
+TARGET_AUDIO_CONFIG_RECORDALIVE_LIB_VERSION="07010"
 TARGET_AUDIO_SUPPORT_ACH_RINGTONE=false
 TARGET_AUDIO_SUPPORT_DUAL_SPEAKER=true
 TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION=false
-TARGET_AUTO_BRIGHTNESS_TYPE="5"
-TARGET_DVFS_CONFIG_NAME="dvfs_policy_sm8350_xx"
-TARGET_ESE_CHIP_VENDOR="NXP"
-TARGET_ESE_COS_NAME="JCOP5.3T"
-TARGET_FP_SENSOR_CONFIG="google_touch_display_optical,settings=3"
-TARGET_HAS_HW_MDNIE=false
-TARGET_HAS_MASS_CAMERA_APP=true
-TARGET_HAS_QHD_DISPLAY=false
-#TARGET_HFR_MODE="1"
-TARGET_HFR_MODE="2"
-TARGET_HFR_SUPPORTED_REFRESH_RATE="60,120"
-TARGET_HFR_DEFAULT_REFRESH_RATE="120"
-TARGET_IS_ESIM_SUPPORTED=false
-TARGET_MDNIE_SUPPORTED_MODES="61457"
-TARGET_MDNIE_WEAKNESS_SOLUTION_FUNCTION="0"
-TARGET_MULTI_MIC_MANAGER_VERSION="07020"
-TARGET_SSRM_CONFIG_NAME="siop_r9q_sm8350"
-TARGET_SUPPORT_CUTOUT_PROTECTION=false
+
+# Aparat
+TARGET_CAMERA_SUPPORT_CAMERAX_EXTENSION=true
+TARGET_CAMERA_SUPPORT_CUTOUT_PROTECTION=false
+TARGET_CAMERA_SUPPORT_MASS_APP_FLAVOR=true
+TARGET_CAMERA_SUPPORT_SDK_SERVICE=false
+
+# Wyświetlacz / LCD / HFR
+TARGET_COMMON_CONFIG_MDNIE_MODE="55829"
+TARGET_COMMON_SUPPORT_DYN_RESOLUTION_CONTROL=false
+TARGET_LCD_CONFIG_COLOR_WEAKNESS_SOLUTION="3"
+TARGET_LCD_CONFIG_CONTROL_AUTO_BRIGHTNESS="3"
+TARGET_LCD_CONFIG_HFR_DEFAULT_REFRESH_RATE="120"
+# Tryb HFR: użyj wartości dostosowanych do panelu S21 FE
+TARGET_LCD_CONFIG_HFR_MODE="2"
+TARGET_LCD_CONFIG_HFR_SUPPORTED_REFRESH_RATE="60,120"
+# Wartości seamless BRT/LUX wymagają dostrojenia pod realny panel
+TARGET_LCD_CONFIG_SEAMLESS_BRT="149,84"      # TODO: zweryfikuj
+TARGET_LCD_CONFIG_SEAMLESS_LUX="300,3500"    # TODO: zweryfikuj
+TARGET_LCD_SUPPORT_MDNIE_HW=false
+
+# Fingerprint (S21 FE ma optyczny w ekranie; nazwa sensora może się różnić)
+TARGET_FINGERPRINT_CONFIG_SENSOR="google_touch_display_optical,settings=3,no_delay_in_screen_off,transition_effect_on"
+
+# RIL / SIM
+TARGET_RIL_FEATURES="onebinary satellite_carrier"
+TARGET_RIL_SIM_CONFIG_MULTISIM_TRAYCOUNT="1"
+TARGET_RIL_SUPPORT_WATERPROOF_SIM_TRAY_MSG=false
+
+# WLAN
+TARGET_WLAN_CONFIG_CONNECTION_PERSONALIZATION="0"
+TARGET_WLAN_CONFIG_CPU_CSTATE_DISABLE_THRESHOLD="100"
+TARGET_WLAN_CONFIG_DATA_ACTIVITY_AFFINITY_BOOSTER_THRESHOLD="9999"
+TARGET_WLAN_CONFIG_DYNAMIC_SWITCH="0"
+TARGET_WLAN_CONFIG_L1SS_DISABLE_THRESHOLD="0"
+TARGET_WLAN_SUPPORT_80211AX=true
+TARGET_WLAN_SUPPORT_80211AX_6GHZ=true         # S21 FE może nie wspierać 6 GHz; ustaw zgodnie z blobami
+TARGET_WLAN_SUPPORT_APE_SERVICE=false
+TARGET_WLAN_SUPPORT_LOWLATENCY=false
+TARGET_WLAN_SUPPORT_MBO=true
+TARGET_WLAN_SUPPORT_MOBILEAP_5G_BASEDON_COUNTRY=false
+TARGET_WLAN_SUPPORT_MOBILEAP_6G=false
+TARGET_WLAN_SUPPORT_MOBILEAP_POWER_SAVEMODE=false
+TARGET_WLAN_SUPPORT_MOBILEAP_PRIORITIZE_TRAFFIC=false
+TARGET_WLAN_SUPPORT_MOBILEAP_WIFI_CONCURRENCY=true
+TARGET_WLAN_SUPPORT_MOBILEAP_WIFISHARING_LITE=true
+TARGET_WLAN_SUPPORT_SWITCH_FOR_INDIVIDUAL_APPS=true
+TARGET_WLAN_SUPPORT_TWT_CONTROL=false
+TARGET_WLAN_SUPPORT_WIFI_TO_CELLULAR=false
